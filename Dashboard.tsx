@@ -11,7 +11,6 @@ const CardExample: React.FC = () => {
     <div className='mt-10'>
       <div className=''>
         <h1 className='text font-bold  text-center text-3xl'>WELCOME TO DATAHUB</h1>
-        <p className='text font-medium  text-center text-base mt-2'>Here you can visualize your employees task rates in realtime.</p>
         <p className='text font-medium  text-center text-base mt-2'>To start please click to upload an excel file or click to manually create table</p>
       </div>
       <Box className="flex flex-wrap justify-center gap-4">
