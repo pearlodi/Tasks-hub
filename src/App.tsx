@@ -9,7 +9,9 @@ import VisualizeTable from './pages/dashboard/visualizeTable';
 import CreateTable from './pages/dashboard/createTable';
 import UserTable from './pages/dashboard/UserTable';
 import store from './redux/store';
-import DataTable from './pages/dashboard/DataTable';
+import DataTable from './pages/dashboard/dataTable';
+import AnalyzePage from './pages/dashboard/Analyze';
+
 
 const App: React.FC = () => {
   return (
@@ -23,7 +25,10 @@ const App: React.FC = () => {
             <Route path="/table" element={<UserTable />} />
             <Route path="/visualize/:id" element={<Visualize />} />
             <Route path="/visualize-table/:id" element={<VisualizeTable />} />
+            <Route path="/visualize-table/:id" element={<VisualizeTable />} />
             <Route path="/create-table" element={<CreateTable />} />
+            <Route path="/analyze/:id" element={<AnalyzePage />} />
+
           </Route>
         </Routes>
       </Router>

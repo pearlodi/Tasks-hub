@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
+
 type ExcelData = (string | number | boolean | null)[][];
 
 const UploadExcel = () => {
@@ -91,13 +92,14 @@ const UploadExcel = () => {
 
       dispatch(addExcelDataAction({ fileName: file.name, data: cleanedData, id: fileId, sheetName: selectedSheet }));
 
-      const storedData = JSON.parse(localStorage.getItem('excelData') || '{}');
-      storedData[fileId] = {
+      const storedData = {
         fileName: file.name,
         sheetName: selectedSheet,
         data: cleanedData,
       };
-      localStorage.setItem('excelData', JSON.stringify(storedData));
+
+      localStorage.setItem(`excelData_${fileId}`, JSON.stringify(storedData));
+      // console.log('Stored Excel Data:', storedData);
 
       setOpen(false);
       navigate(`/data-table/${fileId}`);
@@ -105,21 +107,22 @@ const UploadExcel = () => {
       console.error('File, selectedSheet, or excelData is missing');
     }
   };
+
   return (
     <div>
       <input
         type="file"
         id="file-upload"
-        accept=".xlsx, .xls"
+        accept=".xlsx, .xls, .csv"
         style={{ display: 'none' }}
         onChange={handleFileUpload}
       />
       <label htmlFor="file-upload" className='gradient-background text-black font-bold text-base cursor-pointer w-full flex text-center items-center justify-center p-1'>
-        Upload from Excel
+        Upload from Excel or CSV
       </label>
 
       <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="dialog-title">
-        <DialogTitle id="dialog-title" className='text'><p className='text foont-bold text-lg'>Select a Sheet</p></DialogTitle>
+        <DialogTitle id="dialog-title" className='text'><p className='text font-bold text-lg'>Select a Sheet</p></DialogTitle>
         <DialogContent dividers>
           {sheetNames.length > 1 && (
             <div>
@@ -138,7 +141,6 @@ const UploadExcel = () => {
               <TableContainer sx={{ maxHeight: 440 }}>
                 <Table>
                   <TableHead>
-                  
                     <TableRow>
                       {excelData[0]?.map((cell, index) => (
                         <TableCell key={index}>{cell}</TableCell>
@@ -146,8 +148,6 @@ const UploadExcel = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                  <TableRow>
-                    </TableRow>
                     {excelData.slice(1).map((row, rowIndex) => (
                       <TableRow key={rowIndex}>
                         {row.map((cell, cellIndex) => (
